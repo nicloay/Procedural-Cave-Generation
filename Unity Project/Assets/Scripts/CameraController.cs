@@ -18,14 +18,14 @@ public class CameraController : MonoBehaviour {
 
     CameraState cameraState = CameraState.Passive;
     Plane levelPlane;
-
+    Plane cameraPlane;
     void Start(){
         if (MapPlaneNormal == Vector3.zero){
             Debug.LogError("Wrong map normal");
             Application.Quit();
         }
         levelPlane = new Plane(MapPlaneNormal, MapPlaneLocation.transform.position);
-
+        cameraPlane = new Plane(MapPlaneNormal, transform.position);
     }
 
 
@@ -37,13 +37,27 @@ public class CameraController : MonoBehaviour {
 	}
 
     Vector3 StartGlobalPosition;
+    Vector3 NearClipPlaneStartPosition;
+    float ScreenToCamRatio;
     void HandlePan(){
+        float rayDistance;
         if (Input.GetMouseButtonDown(0)){
-            StartGlobalPosition = ScreenToGlobalPosition(Input.mousePosition);            
+            Ray outRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            levelPlane.Raycast(outRay, out rayDistance);
+            StartGlobalPosition = outRay.GetPoint(rayDistance);
+            NearClipPlaneStartPosition = outRay.GetPoint(0.0f);
         } else if (Input.GetMouseButton(0)){
-            Vector3 newGlobalPosition = ScreenToGlobalPosition(Input.mousePosition);
-            Vector3 diff = StartGlobalPosition - newGlobalPosition;
-            transform.position += diff;            
+            Ray camToPlaneRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            levelPlane.Raycast(camToPlaneRay, out rayDistance);
+            float globalToCamDistance = Vector3.Distance( camToPlaneRay.GetPoint(rayDistance), transform.position);
+
+
+            Ray globalToCamRay = new Ray(StartGlobalPosition, -camToPlaneRay.direction);
+            Debug.DrawRay(globalToCamRay.GetPoint(0.0f), globalToCamRay.GetPoint(globalToCamDistance));
+            Vector3 newCamPosition = globalToCamRay.GetPoint(globalToCamDistance);
+
+            transform.position = newCamPosition;
+
         }
     }
 
@@ -65,4 +79,8 @@ public class CameraController : MonoBehaviour {
         return MapPlaneLocation.transform.position;
     }
 
+
+    float FrustumHeightAtDistance(float distance) {
+        return 2.0f * distance * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
+    }
 }
