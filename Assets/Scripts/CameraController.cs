@@ -5,7 +5,7 @@ using System.Collections;
 internal enum CameraState{
     Passive,
     Pan,
-    Zoom
+    Pinch
 }
 
 
@@ -40,7 +40,7 @@ public class CameraController : MonoBehaviour {
 	void Update () {
         float mouseScrollAmmount = Input.GetAxis("Mouse ScrollWheel");
         if (Input.touchCount > 1 ||  mouseScrollAmmount != 0.0f){
-            HandleZoom(mouseScrollAmmount) ;   
+            HandlePinch(mouseScrollAmmount) ;   
         } else if (Input.GetMouseButton(0) ){            
             HandlePan() ;       
         } else {
@@ -49,17 +49,17 @@ public class CameraController : MonoBehaviour {
 	}
 
 
-    float startZoomDiff;
-    float camStartZoomFow;
+    float startPinchDiff;
+    float camPinchStartFOW;
 
-    void HandleZoom(float mouseScrollAmmount){
+    void HandlePinch(float mouseScrollAmmount){
 
         if (mouseScrollAmmount != 0.0f ){
             if (cameraState == CameraState.Passive 
-                || cameraState == CameraState.Zoom){ 
+                || cameraState == CameraState.Pinch){ 
                 Camera.main.fieldOfView += mouseScrollAmmount * CameraZoomScrollRatio;
                 ClampCamera();
-                cameraState = CameraState.Zoom;
+                cameraState = CameraState.Pinch;
             }
             return;
         }
@@ -67,21 +67,21 @@ public class CameraController : MonoBehaviour {
 
         Touch t1 = Input.touches[0];
         Touch t2 = Input.touches[1];
-        if (cameraState == CameraState.Zoom 
+        if (cameraState == CameraState.Pinch 
             && ( t1.phase == TouchPhase.Moved || t1.phase == TouchPhase.Moved )){
             ContinuePan(Vector3.Lerp(t1.position, t2.position, 0.5f));
             DrawDebugTouchGizmos();
             float newDiff = Vector2.Distance(t1.position, t2.position);
-            float ratio = startZoomDiff / newDiff;
-            Camera.main.fieldOfView =camStartZoomFow * ratio;
+            float ratio = startPinchDiff / newDiff;
+            Camera.main.fieldOfView =camPinchStartFOW * ratio;
             ClampCamera();                
         } else {
-            cameraState = CameraState.Zoom;
+            cameraState = CameraState.Pinch;
             StartPan(Vector3.Lerp(t1.position, t2.position, 0.5f));
 
-            startZoomDiff = Vector2.Distance(t1.position, t2.position);
+            startPinchDiff = Vector2.Distance(t1.position, t2.position);
             DrawDebugTouchGizmos();
-            camStartZoomFow = Camera.main.fieldOfView;
+            camPinchStartFOW = Camera.main.fieldOfView;
         } 
     }
 
