@@ -18,13 +18,7 @@ public class MapGenerator : MonoBehaviour {
 
 	void Start() {
 		GenerateMap();
-	}
-
-	void Update() {
-		if (Input.GetMouseButtonDown(0)) {
-			GenerateMap();
-		}
-	}
+	}       	
 
 	void GenerateMap() {
 		map = new int[width,height];
