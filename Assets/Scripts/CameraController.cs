@@ -51,6 +51,7 @@ public class CameraController : MonoBehaviour {
 
     float startZoomDiff;
     float camStartZoomFow;
+
     void HandleZoom(float mouseScrollAmmount){
 
         if (mouseScrollAmmount != 0.0f ){
@@ -68,20 +69,33 @@ public class CameraController : MonoBehaviour {
         Touch t2 = Input.touches[1];
         if (cameraState == CameraState.Zoom 
             && ( t1.phase == TouchPhase.Moved || t1.phase == TouchPhase.Moved )){
-            
+            ContinuePan(Vector3.Lerp(t1.position, t2.position, 0.5f));
+            DrawDebugTouchGizmos();
             float newDiff = Vector2.Distance(t1.position, t2.position);
             float ratio = startZoomDiff / newDiff;
             Camera.main.fieldOfView =camStartZoomFow * ratio;
             ClampCamera();                
         } else {
             cameraState = CameraState.Zoom;
+            StartPan(Vector3.Lerp(t1.position, t2.position, 0.5f));
+
             startZoomDiff = Vector2.Distance(t1.position, t2.position);
+            DrawDebugTouchGizmos();
             camStartZoomFow = Camera.main.fieldOfView;
         } 
     }
 
 
-    Vector3 StartGlobalPosition;
+    void DrawDebugTouchGizmos(){
+#if DEBUG_RAYS
+        Gizmos.color = Color.green;
+        Debug.DrawLine(ScreenToGlobalPosition(Input.touches[0].position), 
+            ScreenToGlobalPosition(Input.touches[1].position));
+        Gizmos.color = Color.white;
+#endif
+    }
+
+
 
     /// <summary>
     /// Handles the pan.
@@ -90,15 +104,24 @@ public class CameraController : MonoBehaviour {
     /// </summary>
     void HandlePan(){
         if (Input.GetMouseButton(0) && cameraState == CameraState.Pan){
-            Vector3 newGlobalPosition = ScreenToGlobalPosition(Input.mousePosition);
-            Vector3 diff = StartGlobalPosition - newGlobalPosition;
-            transform.position += diff;            
-        } else if (!Input.GetMouseButtonUp(0)){
-            
-            StartGlobalPosition = ScreenToGlobalPosition(Input.mousePosition);            
+            ContinuePan(Input.mousePosition);
+        } else if (!Input.GetMouseButtonUp(0)){            
+            StartPan(Input.mousePosition);
             cameraState = CameraState.Pan;
         } 
     }
+
+    Vector3 StartGlobalPosition;
+    void StartPan(Vector2 ScreenPosition){
+        StartGlobalPosition = ScreenToGlobalPosition(ScreenPosition);            
+    }
+
+    void ContinuePan(Vector2 ScreenPosition){
+        Vector3 newGlobalPosition = ScreenToGlobalPosition(ScreenPosition);
+        Vector3 diff = StartGlobalPosition - newGlobalPosition;
+        transform.position += diff;            
+    }
+
 
     /// <summary>
     /// Screens to global position.
