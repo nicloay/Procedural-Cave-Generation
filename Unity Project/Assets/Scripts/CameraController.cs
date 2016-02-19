@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public enum CameraState{
+internal enum CameraState{
     Passive,
     Pan,
     Zoom
@@ -17,6 +17,7 @@ public class CameraController : MonoBehaviour {
     public Vector3 MapPlaneNormal = Vector3.up;
     public float CamMinFOW = 20;
     public float CamMaxFOW = 60;
+    public float CameraZoomScrollRatio = 10.0f;
   
     CameraState cameraState = CameraState.Passive;
     Plane levelPlane;
@@ -27,14 +28,19 @@ public class CameraController : MonoBehaviour {
             Application.Quit();
         }
         levelPlane = new Plane(MapPlaneNormal, MapPlaneLocation.transform.position);
-        Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, CamMinFOW, CamMaxFOW);
+        ClampCamera();
+    }
+
+    void ClampCamera(){
+        Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, CamMinFOW, CamMaxFOW);        
     }
 
 
     // Update is called once per frame
 	void Update () {
-        if (Input.touchCount > 1){
-            HandleZoom() ;   
+        float mouseScrollAmmount = Input.GetAxis("Mouse ScrollWheel");
+        if (Input.touchCount > 1 ||  mouseScrollAmmount != 0.0f){
+            HandleZoom(mouseScrollAmmount) ;   
         } else if (Input.GetMouseButton(0) ){            
             HandlePan() ;       
         } else {
@@ -45,8 +51,19 @@ public class CameraController : MonoBehaviour {
 
     float startZoomDiff;
     float camStartZoomFow;
-    void HandleZoom(){
-        
+    void HandleZoom(float mouseScrollAmmount){
+
+        if (mouseScrollAmmount != 0.0f ){
+            if (cameraState == CameraState.Passive 
+                || cameraState == CameraState.Zoom){ 
+                Camera.main.fieldOfView += mouseScrollAmmount * CameraZoomScrollRatio;
+                ClampCamera();
+                cameraState = CameraState.Zoom;
+            }
+            return;
+        }
+
+
         Touch t1 = Input.touches[0];
         Touch t2 = Input.touches[1];
         if (cameraState == CameraState.Zoom 
@@ -54,7 +71,8 @@ public class CameraController : MonoBehaviour {
             
             float newDiff = Vector2.Distance(t1.position, t2.position);
             float ratio = startZoomDiff / newDiff;
-            Camera.main.fieldOfView = Mathf.Clamp( camStartZoomFow * ratio, CamMinFOW, CamMaxFOW);
+            Camera.main.fieldOfView =camStartZoomFow * ratio;
+            ClampCamera();                
         } else {
             cameraState = CameraState.Zoom;
             startZoomDiff = Vector2.Distance(t1.position, t2.position);
