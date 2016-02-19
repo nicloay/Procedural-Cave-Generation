@@ -4,7 +4,7 @@ using System.Collections;
 
 public enum CameraState{
     Passive,
-    Move,
+    Pan,
     Zoom
 }
 
@@ -37,6 +37,8 @@ public class CameraController : MonoBehaviour {
             HandleZoom() ;   
         } else if (Input.GetMouseButton(0) ){            
             HandlePan() ;       
+        } else {
+            cameraState = CameraState.Passive;
         }
 	}
 
@@ -44,19 +46,20 @@ public class CameraController : MonoBehaviour {
     float startZoomDiff;
     float camStartZoomFow;
     void HandleZoom(){
+        
         Touch t1 = Input.touches[0];
         Touch t2 = Input.touches[1];
-        if (t1.phase== TouchPhase.Began && t2.phase == TouchPhase.Began){
-            startZoomDiff = Vector2.Distance(t1.position, t2.position);
-            camStartZoomFow = Camera.main.fieldOfView;
-        } else if (t1.phase == TouchPhase.Moved || t1.phase == TouchPhase.Moved ){
+        if (cameraState == CameraState.Zoom 
+            && ( t1.phase == TouchPhase.Moved || t1.phase == TouchPhase.Moved )){
             
             float newDiff = Vector2.Distance(t1.position, t2.position);
             float ratio = startZoomDiff / newDiff;
-
             Camera.main.fieldOfView = Mathf.Clamp( camStartZoomFow * ratio, CamMinFOW, CamMaxFOW);
-
-        }
+        } else {
+            cameraState = CameraState.Zoom;
+            startZoomDiff = Vector2.Distance(t1.position, t2.position);
+            camStartZoomFow = Camera.main.fieldOfView;
+        } 
     }
 
 
@@ -68,13 +71,15 @@ public class CameraController : MonoBehaviour {
     /// no need
     /// </summary>
     void HandlePan(){
-        if (Input.GetMouseButtonDown(0)){
-            StartGlobalPosition = ScreenToGlobalPosition(Input.mousePosition);            
-        } else if (Input.GetMouseButton(0)){
+        if (Input.GetMouseButton(0) && cameraState == CameraState.Pan){
             Vector3 newGlobalPosition = ScreenToGlobalPosition(Input.mousePosition);
             Vector3 diff = StartGlobalPosition - newGlobalPosition;
             transform.position += diff;            
-        }
+        } else if (!Input.GetMouseButtonUp(0)){
+            
+            StartGlobalPosition = ScreenToGlobalPosition(Input.mousePosition);            
+            cameraState = CameraState.Pan;
+        } 
     }
 
     /// <summary>
