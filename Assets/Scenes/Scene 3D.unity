@@ -186,6 +186,9 @@ MonoBehaviour:
   Level: {fileID: 509230441}
   MapPlaneLocation: {fileID: 509230441}
   MapPlaneNormal: {x: 0, y: 1, z: 0}
+  CamMinFOW: 20
+  CamMaxFOW: 60
+  CameraZoomScrollRatio: 10
 --- !u!1 &509230441
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,6 +199,7 @@ GameObject:
   - 4: {fileID: 509230443}
   - 114: {fileID: 509230442}
   - 114: {fileID: 509230444}
+  - 114: {fileID: 509230445}
   m_Layer: 0
   m_Name: Map Generator
   m_TagString: Untagged
@@ -219,6 +223,7 @@ MonoBehaviour:
   seed: 0
   useRandomSeed: 1
   randomFillPercent: 48
+  meshGen: {fileID: 0}
 --- !u!4 &509230443
 Transform:
   m_ObjectHideFlags: 0
@@ -248,6 +253,19 @@ MonoBehaviour:
   walls: {fileID: 777526922}
   cave: {fileID: 663968341}
   is2D: 0
+--- !u!114 &509230445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 509230441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d09b2cac8c34eb3b66ddb41342c7dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 145040, guid: efd49d4b54ad1445e8b63c9058538ad3, type: 2}
+  MapGenerator: {fileID: 509230442}
 --- !u!1 &631091595
 GameObject:
   m_ObjectHideFlags: 0

@@ -356,7 +356,7 @@ public class MeshGenerator : MonoBehaviour {
 			squares = new Square[nodeCountX -1,nodeCountY -1];
 			for (int x = 0; x < nodeCountX-1; x ++) {
 				for (int y = 0; y < nodeCountY-1; y ++) {
-					squares[x,y] = new Square(controlNodes[x,y+1], controlNodes[x+1,y+1], controlNodes[x+1,y], controlNodes[x,y]);
+                    squares[x,y] = new Square(controlNodes[x,y], controlNodes[x,y+1], controlNodes[x+1,y+1], controlNodes[x+1,y], controlNodes[x,y]);
 				}
 			}
 
@@ -364,13 +364,14 @@ public class MeshGenerator : MonoBehaviour {
 	}
 	
 	public class Square {
-
+        public ControlNode CentralControlNode;
 		public ControlNode topLeft, topRight, bottomRight, bottomLeft;
 		public Node centreTop, centreRight, centreBottom, centreLeft;
 		public int configuration;
 
-		public Square (ControlNode _topLeft, ControlNode _topRight, ControlNode _bottomRight, ControlNode _bottomLeft) {
-			topLeft = _topLeft;
+        public Square (ControlNode CentralControlNode, ControlNode _topLeft, ControlNode _topRight, ControlNode _bottomRight, ControlNode _bottomLeft) {
+            this.CentralControlNode = CentralControlNode;
+            topLeft = _topLeft;
 			topRight = _topRight;
 			bottomRight = _bottomRight;
 			bottomLeft = _bottomLeft;

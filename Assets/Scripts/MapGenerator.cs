@@ -11,16 +11,53 @@ public class MapGenerator : MonoBehaviour {
 	public string seed;
 	public bool useRandomSeed;
 
+    public Action OnMapGenerationDone;
+
 	[Range(0,100)]
 	public int randomFillPercent;
 
+    public MeshGenerator meshGen;
+
+    /// <summary>
+    /// The map.
+    ///     1 - occupied field
+    ///     0 - used field
+    /// </summary>
 	int[,] map;
+
+    public int[,] Map{
+        get{
+            return map;
+        }
+    }
+
+
+    public Vector3 GetNodeGlobalPosition(int x, int y){
+        return meshGen.squareGrid.squares[x,y].CentralControlNode.position;
+    }
+
+    public int GetMapNodeValue(int x, int y){
+        return Map[x,y];
+    }
+    /// <summary>
+    /// Gets the random map node.*/
+    /// </summary>
+    /// <returns><c>true</c>, if random map node was gotten, <c>false</c> otherwise.</returns>
+    /// <param name="x">The x coordinate.</param>
+    /// <param name="y">The y coordinate.</param>
+    /// <param name="value">return true if value has 1 or false if it's 0</param>
+    public bool GetRandomMapNode(out int x, out int y, out int value){
+        x = UnityEngine.Random.Range(0, map.GetLength(0));
+        y = UnityEngine.Random.Range(0, map.GetLength(1));
+        value = GetMapNodeValue(x,y);
+        return value == 1;
+    }
 
 	void Start() {
 		GenerateMap();
 	}       	
 
-	void GenerateMap() {
+	public void GenerateMap() {
 		map = new int[width,height];
 		RandomFillMap();
 
@@ -44,8 +81,11 @@ public class MapGenerator : MonoBehaviour {
 			}
 		}
 
-		MeshGenerator meshGen = GetComponent<MeshGenerator>();
+		meshGen = GetComponent<MeshGenerator>();
 		meshGen.GenerateMesh(borderedMap, 1);
+        if (OnMapGenerationDone != null){
+            OnMapGenerationDone();
+        }
 	}
 
 	void ProcessMap() {
