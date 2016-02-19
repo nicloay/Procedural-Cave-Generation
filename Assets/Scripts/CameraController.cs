@@ -88,10 +88,10 @@ public class CameraController : MonoBehaviour {
 
     void DrawDebugTouchGizmos(){
 #if DEBUG_RAYS
-        Gizmos.color = Color.green;
-        Debug.DrawLine(ScreenToGlobalPosition(Input.touches[0].position), 
-            ScreenToGlobalPosition(Input.touches[1].position));
-        Gizmos.color = Color.white;
+        if (Input.touchCount > 0 ){           
+            Debug.DrawLine(ScreenToGlobalPosition(Input.touches[0].position), 
+                ScreenToGlobalPosition(Input.touches[1].position), Color.green);        
+        }
 #endif
     }
 
