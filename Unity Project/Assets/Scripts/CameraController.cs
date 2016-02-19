@@ -15,7 +15,9 @@ public class CameraController : MonoBehaviour {
     //We don't use Level gameobject here in case if we would need to adjust plane offset and so on
     public GameObject MapPlaneLocation;
     public Vector3 MapPlaneNormal = Vector3.up;
-
+    public float CamMinFOW = 20;
+    public float CamMaxFOW = 60;
+  
     CameraState cameraState = CameraState.Passive;
     Plane levelPlane;
 
@@ -25,18 +27,46 @@ public class CameraController : MonoBehaviour {
             Application.Quit();
         }
         levelPlane = new Plane(MapPlaneNormal, MapPlaneLocation.transform.position);
-
+        Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, CamMinFOW, CamMaxFOW);
     }
 
 
     // Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButton(0) ){            
+        if (Input.touchCount > 1){
+            HandleZoom() ;   
+        } else if (Input.GetMouseButton(0) ){            
             HandlePan() ;       
         }
 	}
 
+
+    float startZoomDiff;
+    float camStartZoomFow;
+    void HandleZoom(){
+        Touch t1 = Input.touches[0];
+        Touch t2 = Input.touches[1];
+        if (t1.phase== TouchPhase.Began && t2.phase == TouchPhase.Began){
+            startZoomDiff = Vector2.Distance(t1.position, t2.position);
+            camStartZoomFow = Camera.main.fieldOfView;
+        } else if (t1.phase == TouchPhase.Moved || t1.phase == TouchPhase.Moved ){
+            
+            float newDiff = Vector2.Distance(t1.position, t2.position);
+            float ratio = startZoomDiff / newDiff;
+
+            Camera.main.fieldOfView = Mathf.Clamp( camStartZoomFow * ratio, CamMinFOW, CamMaxFOW);
+
+        }
+    }
+
+
     Vector3 StartGlobalPosition;
+
+    /// <summary>
+    /// Handles the pan.
+    /// we use little hack here. we check mouse position because by default nity simulate 3 touches by mouse[0-3] buttons
+    /// no need
+    /// </summary>
     void HandlePan(){
         if (Input.GetMouseButtonDown(0)){
             StartGlobalPosition = ScreenToGlobalPosition(Input.mousePosition);            
