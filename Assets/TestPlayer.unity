@@ -245,7 +245,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 472678, guid: 5872f9a3440394d298aed01c681e4abb, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.059
+      value: 1.5085
       objectReference: {fileID: 0}
     - target: {fileID: 472678, guid: 5872f9a3440394d298aed01c681e4abb, type: 2}
       propertyPath: m_LocalPosition.z
@@ -317,6 +317,10 @@ Prefab:
       propertyPath: FirePointDistance
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 145040, guid: efd49d4b54ad1445e8b63c9058538ad3, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: efd49d4b54ad1445e8b63c9058538ad3, type: 2}
   m_IsPrefabParent: 0
@@ -332,7 +336,7 @@ GameObject:
   - 65: {fileID: 2047223726}
   - 23: {fileID: 2047223725}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

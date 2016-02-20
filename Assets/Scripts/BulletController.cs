@@ -15,4 +15,11 @@ public class BulletController : MonoBehaviour {
 	void Update () {
         rb.AddForce (transform.TransformDirection( Vector3.forward) * Speed * Time.deltaTime, ForceMode.VelocityChange);
 	}
+
+    void OnCollisionEnter(Collision collision) {
+       Destroy(gameObject);
+    } 
+
+ 
 }
+
