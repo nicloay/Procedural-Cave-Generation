@@ -337,18 +337,22 @@ public class MeshGenerator : MonoBehaviour {
 
 	public class SquareGrid {
 		public Square[,] squares;
+        float mapWidth;
+        float mapHeight;
+        float squareSize;
 
 		public SquareGrid(int[,] map, float squareSize) {
 			int nodeCountX = map.GetLength(0);
 			int nodeCountY = map.GetLength(1);
-			float mapWidth = nodeCountX * squareSize;
-			float mapHeight = nodeCountY * squareSize;
+			mapWidth = nodeCountX * squareSize;
+			mapHeight = nodeCountY * squareSize;
+            this.squareSize = squareSize;
 
 			ControlNode[,] controlNodes = new ControlNode[nodeCountX,nodeCountY];
 
 			for (int x = 0; x < nodeCountX; x ++) {
 				for (int y = 0; y < nodeCountY; y ++) {
-					Vector3 pos = new Vector3(-mapWidth/2 + x * squareSize + squareSize/2, 0, -mapHeight/2 + y * squareSize + squareSize/2);
+                    Vector3 pos = nodeIndexesToGlobalPosition(x,y);
 					controlNodes[x,y] = new ControlNode(pos,map[x,y] == 1, squareSize);
 				}
 			}
@@ -359,8 +363,27 @@ public class MeshGenerator : MonoBehaviour {
                     squares[x,y] = new Square(controlNodes[x,y], controlNodes[x,y+1], controlNodes[x+1,y+1], controlNodes[x+1,y], controlNodes[x,y]);
 				}
 			}
-
 		}
+
+        Vector3 nodeIndexesToGlobalPosition(int x, int y){
+            return new Vector3(-mapWidth/2 + x * squareSize + squareSize/2, 0, -mapHeight/2 + y * squareSize + squareSize/2);
+        }
+
+        /// <summary>
+        /// Globals the position to node indexes.
+        /// </summary>
+        /// <returns><c>true</c>, if global position inside map, <c>false</c> otherwise.</returns>
+        /// <param name="globalPosition">Global position.</param>
+        public bool GlobalPositionToNodeIndexes(Vector3 globalPosition, out int x, out int y){
+            if (globalPosition.x < -mapWidth/2 || globalPosition.x > mapWidth/2
+                || globalPosition.z < -mapHeight / 2.0f || globalPosition.z > mapHeight / 2.0f){
+                x=y=0;
+                return false;
+            }
+            x = (int)Mathf.Floor( (globalPosition.x +mapWidth / 2.0f)/ squareSize);
+            y = (int)Mathf.Floor( (globalPosition.z +mapHeight / 2.0f)/ squareSize);
+            return true;
+        }
 	}
 	
 	public class Square {

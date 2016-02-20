@@ -57,40 +57,71 @@ public class MapGenerator : MonoBehaviour {
         return value == 1;
     }
 
+
+    /// <summary>
+    /// Removes the node at global position if its not A wall.
+    /// ATTENTION: it doesn't actually change mesh
+    /// </summary>
+    /// <returns><c>true</c>, if node was changed, <c>false</c> otherwise.</returns>
+    /// <param name="globalPosition">Global position.</param>
+    public bool RemoveNodeAtGlobalPositionIfItsNotAWall(Vector3 globalPosition){
+        int x,y;
+        if (meshGen.squareGrid.GlobalPositionToNodeIndexes(globalPosition, out x, out y)){
+            if (!IsNodeAtIndexesAwall(x,y)){
+                Map[x,y] = 0;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool IsNodeAtIndexesAwall(int x, int y){
+        return (x == 0 || y == 0 || x == (width - 1) || y == (height - 1));
+    }
+
+
 	void Start() {
+        meshGen = GetComponent<MeshGenerator>();
 		GenerateMap();
 	}       	
 
 	public void GenerateMap() {
-		map = new int[width,height];
+		
+        map = new int[width,height];
 		RandomFillMap();
 
-		for (int i = 0; i < 5; i ++) {
-			SmoothMap();
-		}
 
-		ProcessMap ();
+        for (int i = 0; i < 5; i ++) {
+            SmoothMap();
+        }
+        RegenrateMesh();
 
-		int borderSize = 1;
-		int[,] borderedMap = new int[width + borderSize * 2,height + borderSize * 2];
-
-		for (int x = 0; x < borderedMap.GetLength(0); x ++) {
-			for (int y = 0; y < borderedMap.GetLength(1); y ++) {
-				if (x >= borderSize && x < width + borderSize && y >= borderSize && y < height + borderSize) {
-					borderedMap[x,y] = map[x-borderSize,y-borderSize];
-				}
-				else {
-					borderedMap[x,y] =1;
-				}
-			}
-		}
-
-		meshGen = GetComponent<MeshGenerator>();
-		meshGen.GenerateMesh(borderedMap, 1);
         if (OnMapGenerationDone != null){
             OnMapGenerationDone();
         }
 	}
+
+
+    public void RegenrateMesh(){
+        
+
+        ProcessMap ();
+
+        int borderSize = 1;
+        int[,] borderedMap = new int[width + borderSize * 2,height + borderSize * 2];
+
+        for (int x = 0; x < borderedMap.GetLength(0); x ++) {
+            for (int y = 0; y < borderedMap.GetLength(1); y ++) {
+                if (x >= borderSize && x < width + borderSize && y >= borderSize && y < height + borderSize) {
+                    borderedMap[x,y] = map[x-borderSize,y-borderSize];
+                }
+                else {
+                    borderedMap[x,y] =1;
+                }
+            }
+        }            
+        meshGen.GenerateMesh(borderedMap, 1);
+    }
 
 	void ProcessMap() {
 		List<List<Coord>> wallRegions = GetRegions (1);

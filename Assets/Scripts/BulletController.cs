@@ -13,6 +13,6 @@ public class BulletController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        rb.position += transform.TransformDirection( Vector3.forward) * Speed * Time.deltaTime;
+        rb.MovePosition (rb.position + transform.TransformDirection( Vector3.forward) * Speed * Time.deltaTime);
 	}
 }
