@@ -7,7 +7,7 @@ public class Player : MonoBehaviour {
 	Vector3 velocity;
 	
 	void Start () {
-		rigidbody = GetComponent<Rigidbody> ();
+        rigidbody = GetComponentInChildren<Rigidbody> ();
 	}
 
 	void Update () {
@@ -15,6 +15,6 @@ public class Player : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		rigidbody.MovePosition (rigidbody.position + velocity * Time.fixedDeltaTime);
+        rigidbody.AddForce (velocity, ForceMode.Acceleration);
 	}
 }

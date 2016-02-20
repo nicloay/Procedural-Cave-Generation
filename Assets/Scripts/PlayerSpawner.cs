@@ -27,16 +27,18 @@ public class PlayerSpawner : MonoBehaviour {
     }
 
     Vector3 GetFreePlayerPosition(){
-        int rescueCounter = 1000; //we could be unlucky and unlimited numbers of time take used cound
-        int x,y, value;
-        while (rescueCounter-- > 0){            
-            if (!MapGenerator.GetRandomMapNode(out x, out y, out value)){
-                return MapGenerator.GetNodeGlobalPosition(x,y);
+        int[] shuffledX = RandomUtils.GetShuffleArray(MapGenerator.width);
+        int[] shuffledY = RandomUtils.GetShuffleArray(MapGenerator.height);
+
+        for (int y = 0; y < shuffledY.Length; y++) {
+            for (int x = 0; x < shuffledX.Length; x++) {
+                if (MapGenerator.IsNodeFree(shuffledX[x], shuffledY[y])){
+                    return MapGenerator.GetNodeGlobalPosition(shuffledX[x], shuffledY[y]);
+                }    
             }
         }
-        // get first empty map;
-
-        return Vector3.zero;//FIXME - handle something here =);
+        Debug.LogError("can't find any freenode at this map, I'll return zero here");
+        return Vector3.zero;
     }
 
 }

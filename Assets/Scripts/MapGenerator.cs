@@ -36,6 +36,10 @@ public class MapGenerator : MonoBehaviour {
         return meshGen.squareGrid.squares[x,y].CentralControlNode.position;
     }
 
+    public bool IsNodeFree(int x, int y){
+        return Map[x,y] == 0;
+    }
+
     public int GetMapNodeValue(int x, int y){
         return Map[x,y];
     }
