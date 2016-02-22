@@ -5,21 +5,24 @@ using System.Collections;
 [RequireComponent(typeof(MapGenerator))]
 public class WallDestroyHandler : MonoBehaviour {
     MapGenerator mg;
+    bool removedAnything = false;
     void Start(){
         mg = GetComponent<MapGenerator>();
     }
 
-    void OnCollisionEnter(Collision collision) {
-        bool removedAnything = false;
+    void OnCollisionEnter(Collision collision) {        
         for (int i = 0; i < collision.contacts.Length; i++)
         {
             removedAnything |= HandleContact(collision.contacts[i]);
         }
-        if (removedAnything){
-            mg.RegenrateMesh();
-        }
     }
 
+    void LateUpdate(){        
+        if (removedAnything){
+            mg.RegenrateMesh();
+            removedAnything = false;
+        }
+    }
 
     bool HandleContact(ContactPoint contact){
         #if DEBUG_RAYS
