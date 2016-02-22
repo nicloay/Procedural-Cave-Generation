@@ -25,7 +25,7 @@ public class FireController : MonoBehaviour {
 
         Debug.DrawRay(transform.position, lastKnownDirection, Color.black);
         #endif
-        if (lastKnownDirection != Vector3.zero && Input.GetButton("Fire")){ //TODO: check is bullet active
+        if (lastKnownDirection != Vector3.zero && Input.GetButton("Fire") && GameData.ActiveBulletsNumber == 0 ){
             GameObject bullet = GameObject.Instantiate(BulletPrefab);
             Vector3 bulletPosition = transform.position + (lastKnownDirection * FirePointDistance);
             bullet.transform.position = bulletPosition;
