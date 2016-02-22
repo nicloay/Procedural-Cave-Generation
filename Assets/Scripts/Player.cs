@@ -12,9 +12,11 @@ public class Player : MonoBehaviour {
 
 	void Update () {
 		velocity = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized * 10;
+        GameData.PlayerPosition = transform.position;
 	}
 
 	void FixedUpdate() {
         rigidbody.AddForce (velocity, ForceMode.Acceleration);
 	}
+
 }

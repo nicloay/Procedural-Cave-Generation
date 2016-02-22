@@ -27,7 +27,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void LoadGame(){
+
+        //TODO: better to restart scene and rebuild from scratch and place player at position
         GameData.LoadData();
         MapGenerator.RegenrateMesh();
+        GameObject.FindGameObjectWithTag("Player").transform.position = GameData.PlayerPosition;
     }
 }

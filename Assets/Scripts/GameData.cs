@@ -15,6 +15,7 @@ public static class GameData  {
     public static int       ActiveBulletsNumber = 0;
     public static int       BulletNumbber = 100;
     public static int       MaxBulletOnScreen = 1;
+    public static Vector3   PlayerPosition;
 
     public static bool      HasSave{
         get{
@@ -32,13 +33,19 @@ public static class GameData  {
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(ms, Map);
         PlayerPrefs.SetString(MapPlayerPrefsKey, Convert.ToBase64String(ms.GetBuffer()));
-
+        PlayerPrefs.SetFloat("playerx", PlayerPosition.x);//yes it's not good for long purpose so later would be better to use some tools for serialization
+        PlayerPrefs.SetFloat("playery", PlayerPosition.y);
+        PlayerPrefs.SetFloat("playerz", PlayerPosition.z);
     }
 
     public static void LoadData(){
         MemoryStream ms = new MemoryStream(Convert.FromBase64String(PlayerPrefs.GetString(MapPlayerPrefsKey)));
         BinaryFormatter bf = new BinaryFormatter();
         Map = (byte[,])bf.Deserialize(ms);
+
+        PlayerPosition.x = PlayerPrefs.GetFloat("playerx");
+        PlayerPosition.y = PlayerPrefs.GetFloat("playery");
+        PlayerPosition.z = PlayerPrefs.GetFloat("playerz");
     }
 
 
