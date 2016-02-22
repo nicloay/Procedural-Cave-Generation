@@ -28,8 +28,15 @@ public class FireController : MonoBehaviour {
 
         Debug.DrawRay(transform.position, lastKnownDirection, Color.black);
         #endif
-        if (lastKnownDirection != Vector3.zero && Input.GetButton("Fire") 
-            && GameData.ActiveBulletsNumber <= GameData.MaxBulletOnScreen 
+        if (lastKnownDirection != Vector3.zero && Input.GetButton("Fire") ){
+            Fire();
+        }
+        PreviousPosition = currentPosition;
+        directionSet = true;
+	}        
+
+    public void Fire(){
+        if (GameData.ActiveBulletsNumber <= GameData.MaxBulletOnScreen 
             && GameData.BulletNumbber > 0){
             GameData.BulletNumbber--;
             GameObject bullet = GameObject.Instantiate(BulletPrefab);
@@ -37,7 +44,5 @@ public class FireController : MonoBehaviour {
             bullet.transform.position = bulletPosition;
             bullet.transform.LookAt(bulletPosition + lastKnownDirection);
         }
-        PreviousPosition = currentPosition;
-        directionSet = true;
-	}        
+    }
 }

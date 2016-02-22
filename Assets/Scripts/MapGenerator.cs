@@ -68,7 +68,17 @@ public class MapGenerator : MonoBehaviour {
 
 	void Start() {
         meshGen = GetComponent<MeshGenerator>();
-		GenerateMap();
+        if (GameData.Map == null){
+            GenerateMap();           
+        } else {
+            width = GameData.Map.GetLength(0);
+            height = GameData.Map.GetLength(1);
+        }
+        RegenrateMesh();
+        DynamicGI.UpdateEnvironment();
+        if (OnMapGenerationDone != null){
+            OnMapGenerationDone();
+        }
 	}       	
 
 	public void GenerateMap() {
@@ -96,11 +106,6 @@ public class MapGenerator : MonoBehaviour {
             }
         }  
         GameData.Map = borderedMap;
-        RegenrateMesh();
-        DynamicGI.UpdateEnvironment();
-        if (OnMapGenerationDone != null){
-            OnMapGenerationDone();
-        }
 	}
 
 
