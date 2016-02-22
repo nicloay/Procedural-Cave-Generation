@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 10
-  LifeTimeInSeconds: 5
+  LifeTimeInSeconds: 10
 --- !u!135 &13540986
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -206,7 +206,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: LifeTimeInSeconds
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
