@@ -15,7 +15,7 @@ public class FireController : MonoBehaviour {
 
     void Update () {        
         Vector3 currentPosition = transform.position;
-
+        currentPosition.y = 0;
         if (directionSet){
             if (currentPosition != PreviousPosition){
                 lastKnownDirection = (currentPosition - PreviousPosition).normalized;
@@ -25,7 +25,9 @@ public class FireController : MonoBehaviour {
 
         Debug.DrawRay(transform.position, lastKnownDirection, Color.black);
         #endif
-        if (lastKnownDirection != Vector3.zero && Input.GetButton("Fire") && GameData.ActiveBulletsNumber == 0 ){
+        if (lastKnownDirection != Vector3.zero && Input.GetButton("Fire") 
+            && GameData.ActiveBulletsNumber == 0 && GameData.BulletNumbber > 0){
+            GameData.BulletNumbber--;
             GameObject bullet = GameObject.Instantiate(BulletPrefab);
             Vector3 bulletPosition = transform.position + (lastKnownDirection * FirePointDistance);
             bullet.transform.position = bulletPosition;

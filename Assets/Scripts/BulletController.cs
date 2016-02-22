@@ -5,7 +5,7 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 public class BulletController : MonoBehaviour {
     public float Speed = 0.1f;
-    public float LifeTimeInSeconds = 3.0f;
+    public float LifeTimeInSeconds = 3.0f; //TODO: probably could remove later after tests
     float currentTime = 0.0f;
 
     Rigidbody rb;
