@@ -8,7 +8,6 @@ namespace Tests{
         public MapGenerator MapGenerator;
         //each row is a line, x - occupied 0 -empty field
         [Multiline]
-        [FormerlySerializedAs("Level")]
         public string Map;
         // Use this for initialization
         void Start () {
