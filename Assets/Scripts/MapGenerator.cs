@@ -23,9 +23,9 @@ public class MapGenerator : MonoBehaviour {
     ///     1 - occupied field
     ///     0 - used field
     /// </summary>
-	int[,] map;
+	byte[,] map;
 
-    public int[,] Map{
+    public byte[,] Map{
         get{
             return map;
         }
@@ -87,7 +87,7 @@ public class MapGenerator : MonoBehaviour {
 
 	public void GenerateMap() {
 		
-        map = new int[width,height];
+        map = new byte[width,height];
 		RandomFillMap();
 
 
@@ -97,7 +97,7 @@ public class MapGenerator : MonoBehaviour {
 
         ProcessMap ();
         int borderSize = 1;
-        int[,] borderedMap = new int[width + borderSize * 2,height + borderSize * 2];
+        byte[,] borderedMap = new byte[width + borderSize * 2,height + borderSize * 2];
 
         for (int x = 0; x < borderedMap.GetLength(0); x ++) {
             for (int y = 0; y < borderedMap.GetLength(1); y ++) {
@@ -118,12 +118,7 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 
-    public void RegenrateMesh(){
-        
-
-
-
-                  
+    public void RegenrateMesh(){                 
         meshGen.GenerateMesh(map, 1);
     }
 
@@ -374,7 +369,7 @@ public class MapGenerator : MonoBehaviour {
 					map[x,y] = 1;
 				}
 				else {
-					map[x,y] = (pseudoRandom.Next(0,100) < randomFillPercent)? 1: 0;
+                    map[x,y] = (byte)( (pseudoRandom.Next(0,100) < randomFillPercent)? 1: 0);
 				}
 			}
 		}
@@ -434,7 +429,7 @@ public class MapGenerator : MonoBehaviour {
 		public Room() {
 		}
 
-		public Room(List<Coord> roomTiles, int[,] map) {
+		public Room(List<Coord> roomTiles, byte[,] map) {
 			tiles = roomTiles;
 			roomSize = tiles.Count;
 			connectedRooms = new List<Room>();

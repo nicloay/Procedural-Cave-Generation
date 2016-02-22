@@ -9,7 +9,7 @@ public class MeshGenerator : MonoBehaviour {
 	public MeshFilter cave;
 
 	public bool is2D;
-
+     
 	List<Vector3> vertices;
 	List<int> triangles;
 
@@ -17,7 +17,7 @@ public class MeshGenerator : MonoBehaviour {
 	List<List<int>> outlines = new List<List<int>> ();
 	HashSet<int> checkedVertices = new HashSet<int>();
 
-	public void GenerateMesh(int[,] map, float squareSize) {
+	public void GenerateMesh(byte[,] map, float squareSize) {
 
 		triangleDictionary.Clear ();
 		outlines.Clear ();
@@ -341,7 +341,7 @@ public class MeshGenerator : MonoBehaviour {
         float mapHeight;
         float squareSize;
 
-		public SquareGrid(int[,] map, float squareSize) {
+		public SquareGrid(byte[,] map, float squareSize) {
 			int nodeCountX = map.GetLength(0);
 			int nodeCountY = map.GetLength(1);
 			mapWidth = nodeCountX * squareSize;
