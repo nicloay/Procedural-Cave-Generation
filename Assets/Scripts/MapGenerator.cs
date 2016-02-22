@@ -94,19 +94,8 @@ public class MapGenerator : MonoBehaviour {
         for (int i = 0; i < 5; i ++) {
             SmoothMap();
         }
-        RegenrateMesh();
-
-        if (OnMapGenerationDone != null){
-            OnMapGenerationDone();
-        }
-	}
-
-
-    public void RegenrateMesh(){
-        
 
         ProcessMap ();
-
         int borderSize = 1;
         int[,] borderedMap = new int[width + borderSize * 2,height + borderSize * 2];
 
@@ -119,8 +108,23 @@ public class MapGenerator : MonoBehaviour {
                     borderedMap[x,y] =1;
                 }
             }
-        }            
-        meshGen.GenerateMesh(borderedMap, 1);
+        }  
+        map = borderedMap;
+        RegenrateMesh();
+
+        if (OnMapGenerationDone != null){
+            OnMapGenerationDone();
+        }
+	}
+
+
+    public void RegenrateMesh(){
+        
+
+
+
+                  
+        meshGen.GenerateMesh(map, 1);
     }
 
 	void ProcessMap() {
