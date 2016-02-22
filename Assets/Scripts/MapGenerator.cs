@@ -44,18 +44,32 @@ public class MapGenerator : MonoBehaviour {
     }
 
 
+    static float epsilon = 0.1f;
+    static Vector3[] CollisionOffsets = new Vector3[]{
+        new Vector3(0,0,0),new Vector3(0,0,epsilon),new Vector3(0,0,-epsilon)
+        ,new Vector3(epsilon,0,0),new Vector3(-epsilon,0,0) 
+    };
     /// <summary>
     /// Removes the node at global position if its not A wall.
     /// ATTENTION: it doesn't actually change mesh
+    /// We have a small issue here. Physical contact with wall doesn't mean that 
+    ///    it will directly map to map indexes because of float issue calculation and because we floor value
+    ///    so what we will do here is check neigbour indexes with small offsets
     /// </summary>
     /// <returns><c>true</c>, if node was changed, <c>false</c> otherwise.</returns>
     /// <param name="globalPosition">Global position.</param>
     public bool RemoveNodeAtGlobalPositionIfItsNotAWall(Vector3 globalPosition){
         int x,y;
-        if (meshGen.squareGrid.GlobalPositionToNodeIndexes(globalPosition, out x, out y)){
-            if (!IsNodeAtIndexesAwall(x,y)){
-                GameData.Map[x,y] = 0;
-                return true;
+        foreach(Vector3 offset in CollisionOffsets){            
+            if (meshGen.squareGrid.GlobalPositionToNodeIndexes(globalPosition + offset, out x, out y)){
+                Debug.LogFormat("{0}   [{1},{2}]", globalPosition + offset,x,y);
+                if (!IsNodeAtIndexesAwall(x,y)){
+                    if (GameData.Map[x,y] == 1){                        
+                        GameData.Map[x,y] = 0;
+                        Debug.LogFormat("deleted at {0} {1}", x, y);
+                        return true;
+                    }
+                }
             }
         }
         return false;

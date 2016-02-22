@@ -412,7 +412,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &396725192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e13551cbd30cb4b998ab3aeaac4f00c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Timeout: 0.9
+  Timeout: 5
   MapToCompare: 'XXXXXXXXX
 
     X00000XXX
@@ -1836,6 +1836,23 @@ Prefab:
     - target: {fileID: 472678, guid: 5872f9a3440394d298aed01c681e4abb, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464576, guid: 5872f9a3440394d298aed01c681e4abb, type: 2}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464576, guid: 5872f9a3440394d298aed01c681e4abb, type: 2}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 13540986, guid: 5872f9a3440394d298aed01c681e4abb, type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 0466d4e682472449c9941ddefcf44380,
+        type: 2}
+    - target: {fileID: 11489898, guid: 5872f9a3440394d298aed01c681e4abb, type: 2}
+      propertyPath: LifeTimeInSeconds
+      value: 1000000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5872f9a3440394d298aed01c681e4abb, type: 2}
