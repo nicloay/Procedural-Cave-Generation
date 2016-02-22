@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Serialization;
-
 
 namespace Tests{    
-    public abstract class RunJobOnStartWithTimeout : MonoBehaviour {
-        [FormerlySerializedAs("timeout")]
+    public abstract class RunJobOnStartWithTimeout : MonoBehaviour {        
         public float Timeout;
         // Use this for initialization
         void Start () {
