@@ -19,7 +19,7 @@ namespace Tests{
                 for (int x = 0; x < thisMap.GetLength(0); x++)
                 {
                     if (thisMap[x,y] != GameData.Map[x,y]){
-                        IntegrationTest.Fail(gameObject);
+                        IntegrationTest.Fail(gameObject, string.Format("gameData[{0},{1}] = {2}", x,y,thisMap[x,y]));
                     }
                 }
             }
