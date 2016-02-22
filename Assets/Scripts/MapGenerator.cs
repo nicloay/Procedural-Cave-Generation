@@ -111,7 +111,7 @@ public class MapGenerator : MonoBehaviour {
         }  
         map = borderedMap;
         RegenrateMesh();
-
+        DynamicGI.UpdateEnvironment();
         if (OnMapGenerationDone != null){
             OnMapGenerationDone();
         }
