@@ -18,7 +18,7 @@ public class BulletNumberTextController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        text.color = GameData.ActiveBulletsNumber > 0 ? secondColor : originalColor; //indicate that we can't shoot
+        text.color = GameData.ActiveBulletsNumber < GameData.MaxBulletOnScreen ? originalColor : secondColor; //indicate that we can't shoot
         text.text = string.Format("Bulltest: {0}", GameData.BulletNumbber);
 	}
 }
