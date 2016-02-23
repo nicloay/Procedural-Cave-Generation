@@ -241,9 +241,27 @@ public class MeshGenerator : MonoBehaviour {
 				}
 			}
 		}
-
+#if DEBUG_RAYS
+        foreach (var otline in outlines)
+        {
+            string res = "";
+            otline.ForEach((x) => res = res+" "+x);
+            Debug.Log(res);
+        }
+#endif
 		SimplifyMeshOutlines ();
 	}
+
+#if DEBUG_RAYS && UNITY_EDITOR
+    void OnDrawGizmos(){
+        if (vertices == null || vertices.Count < 0){
+            return;
+        }
+        for (int vertexIndex = 0; vertexIndex < vertices.Count; vertexIndex ++) {
+            UnityEditor.Handles.Label(vertices[vertexIndex],""+vertexIndex);
+        }
+    }
+#endif
 
 	void SimplifyMeshOutlines() {
 		for (int outlineIndex = 0; outlineIndex < outlines.Count; outlineIndex ++) {
