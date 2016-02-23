@@ -670,7 +670,6 @@ GameObject:
   - 224: {fileID: 737796937}
   - 222: {fileID: 737796939}
   - 114: {fileID: 737796938}
-  - 114: {fileID: 737796940}
   - 114: {fileID: 737796941}
   m_Layer: 5
   m_Name: BulletsNumber_Text
@@ -735,17 +734,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 737796936}
---- !u!114 &737796940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 737796936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3124e0981657f4dccb273a4e1fbe15f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &737796941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,6 +843,7 @@ MonoBehaviour:
     RestartButton: {fileID: 1249246583}
     WallsText: {fileID: 840466797}
     NodeNumberText: {fileID: 1099972650}
+    BulletNumberText: {fileID: 737796938}
   MapGenerator: {fileID: 509230442}
 --- !u!4 &811316650
 Transform:

@@ -11,6 +11,18 @@ public class UIConfig{
     public Button   RestartButton;
     public Text     WallsText;
     public Text     NodeNumberText;
+    public Text     BulletNumberText;
+
+
+    [NonSerialized]
+    public Color    BulletTextOriginalColor;
+    [NonSerialized]
+    public Color    BulletTextSecondColor;
+
+    public void InitSideProperties(){
+        BulletTextSecondColor = BulletTextOriginalColor = BulletNumberText.color;
+        BulletTextSecondColor.a = 0.2f;
+    }
 
 }
 
@@ -19,6 +31,7 @@ public class GameManager : MonoBehaviour {
     public MapGenerator MapGenerator;
 
     void Start(){
+        UI.InitSideProperties();
         UI.SaveButton.onClick.AddListener(new UnityAction(SaveGame));
         UI.LoadButton.onClick.AddListener(new UnityAction(LoadGame));
         UI.RestartButton.onClick.AddListener(new UnityAction(RestartGame));
@@ -33,6 +46,10 @@ public class GameManager : MonoBehaviour {
         UI.LoadButton.interactable = GameData.HasSave;
         UI.WallsText.text = string.Format("Walls: {0}", MapGenerator.WallsNumber);
         UI.NodeNumberText.text = string.Format("Nodes: {0}", MapGenerator.NodeNumber);
+
+        UI.BulletNumberText.color = GameData.ActiveBulletsNumber < GameData.MaxBulletOnScreen 
+            ? UI.BulletTextOriginalColor : UI.BulletTextSecondColor; //indicate that we can't shoot
+        UI.BulletNumberText.text = string.Format("Bulltest: {0}", GameData.BulletNumbber);
     }
 
     public void SaveGame(){
