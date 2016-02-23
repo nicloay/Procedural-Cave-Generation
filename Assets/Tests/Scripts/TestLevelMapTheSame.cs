@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using CaveTestTask;
 
 namespace Tests{
     public class TestLevelMapTheSame : RunJobOnStartWithTimeout {

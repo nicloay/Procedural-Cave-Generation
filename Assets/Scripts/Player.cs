@@ -1,22 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
+namespace CaveTestTask{
+    public class Player : MonoBehaviour {
 
-	Rigidbody rigidbody;
-	Vector3 velocity;
-	
-	void Start () {
-        rigidbody = GetComponentInChildren<Rigidbody> ();
-	}
+    	Rigidbody rigidbody;
+    	Vector3 velocity;
+    	
+    	void Start () {
+            rigidbody = GetComponentInChildren<Rigidbody> ();
+    	}
 
-	void Update () {
-		velocity = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized * 10;
-        GameData.PlayerPosition = transform.position;
-	}
+    	void Update () {
+    		velocity = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized * 10;
+            GameData.PlayerPosition = transform.position;
+    	}
 
-	void FixedUpdate() {
-        rigidbody.AddForce (velocity, ForceMode.Acceleration);
-	}
+    	void FixedUpdate() {
+            rigidbody.AddForce (velocity, ForceMode.Acceleration);
+    	}
 
+    }
 }

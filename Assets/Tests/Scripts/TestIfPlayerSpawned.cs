@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using CaveTestTask;
+
+
 namespace Tests{    
     public class TestIfPlayerSpawned : RunJobOnStartWithTimeout {
         

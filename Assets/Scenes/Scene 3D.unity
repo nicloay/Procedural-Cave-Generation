@@ -867,7 +867,6 @@ GameObject:
   - 224: {fileID: 840466794}
   - 222: {fileID: 840466798}
   - 114: {fileID: 840466797}
-  - 114: {fileID: 840466796}
   - 114: {fileID: 840466795}
   m_Layer: 5
   m_Name: WallsNumber_Text
@@ -907,17 +906,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0.66176474, g: 1, b: 0.83204865, a: 0.5}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
---- !u!114 &840466796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 840466793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3124e0981657f4dccb273a4e1fbe15f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &840466797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1211,7 +1199,6 @@ GameObject:
   - 224: {fileID: 1099972647}
   - 222: {fileID: 1099972651}
   - 114: {fileID: 1099972650}
-  - 114: {fileID: 1099972649}
   - 114: {fileID: 1099972648}
   m_Layer: 5
   m_Name: NodeCount_Text
@@ -1251,17 +1238,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0.66176474, g: 1, b: 0.83204865, a: 0.5}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
---- !u!114 &1099972649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1099972646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3124e0981657f4dccb273a4e1fbe15f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1099972650
 MonoBehaviour:
   m_ObjectHideFlags: 0
