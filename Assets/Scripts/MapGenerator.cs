@@ -18,6 +18,13 @@ public class MapGenerator : MonoBehaviour {
 
     public MeshGenerator meshGen;
 
+    public int WallsNumber{
+        get{
+            return meshGen.OutlinesCount;
+        }
+    }
+
+
     public Vector3 GetNodeGlobalPosition(int x, int y){
         return meshGen.squareGrid.squares[x,y].CentralControlNode.position;
     }

@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 
 [Serializable]
 public class UIConfig{
-    public Button SaveButton;
-    public Button LoadButton;
-    public Button RestartButton;
+    public Button   SaveButton;
+    public Button   LoadButton;
+    public Button   RestartButton;
+    public Text     WallsText;
+
 }
 
 public class GameManager : MonoBehaviour {	
@@ -28,6 +30,7 @@ public class GameManager : MonoBehaviour {
 
     void Update(){
         UI.LoadButton.interactable = GameData.HasSave;
+        UI.WallsText.text = string.Format("Walls: {0}", MapGenerator.WallsNumber);
     }
 
     public void SaveGame(){

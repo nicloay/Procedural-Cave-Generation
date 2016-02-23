@@ -13,6 +13,14 @@ public class MeshGenerator : MonoBehaviour {
 
 	Dictionary<int,List<Triangle>> triangleDictionary = new Dictionary<int, List<Triangle>> ();
 	List<List<int>> outlines = new List<List<int>> ();
+    public int OutlinesCount{
+        get{
+            if (outlines == null){
+                return 0;
+            }
+            return outlines.Count;
+        }
+    }
 	HashSet<int> checkedVertices = new HashSet<int>();
 
 	public void GenerateMesh(byte[,] map, float squareSize) {
