@@ -6,9 +6,7 @@ public class MeshGenerator : MonoBehaviour {
 
 	public SquareGrid squareGrid;
 	public MeshFilter walls;
-	public MeshFilter cave;
-
-	public bool is2D;
+	public MeshFilter cave;   	
      
 	List<Vector3> vertices;
 	List<int> triangles;
@@ -51,11 +49,8 @@ public class MeshGenerator : MonoBehaviour {
 		mesh.uv = uvs;
 	
 
-		if (is2D) {
-			Generate2DColliders();
-		} else {
-			CreateWallMesh ();
-		}
+		CreateWallMesh ();
+
 	}
 
 	void CreateWallMesh() {
@@ -95,26 +90,7 @@ public class MeshGenerator : MonoBehaviour {
 		wallCollider.sharedMesh = wallMesh;
 	}
 
-	void Generate2DColliders() {
-
-		EdgeCollider2D[] currentColliders = gameObject.GetComponents<EdgeCollider2D> ();
-		for (int i = 0; i < currentColliders.Length; i++) {
-			Destroy(currentColliders[i]);
-		}
-
-		CalculateMeshOutlines ();
-
-		foreach (List<int> outline in outlines) {
-			EdgeCollider2D edgeCollider = gameObject.AddComponent<EdgeCollider2D>();
-			Vector2[] edgePoints = new Vector2[outline.Count];
-
-			for (int i =0; i < outline.Count; i ++) {
-				edgePoints[i] = new Vector2(vertices[outline[i]].x,vertices[outline[i]].z);
-			}
-			edgeCollider.points = edgePoints;
-		}
-
-	}
+	
 
 	void TriangulateSquare(Square square) {
 		switch (square.configuration) {
@@ -226,7 +202,7 @@ public class MeshGenerator : MonoBehaviour {
 	}
 
 	void CalculateMeshOutlines() {
-
+        checkedVertices.Clear();
 		for (int vertexIndex = 0; vertexIndex < vertices.Count; vertexIndex ++) {
 			if (!checkedVertices.Contains(vertexIndex)) {
 				int newOutlineVertex = GetConnectedOutlineVertex(vertexIndex);
@@ -241,9 +217,27 @@ public class MeshGenerator : MonoBehaviour {
 				}
 			}
 		}
-
+#if DEBUG_RAYS
+        foreach (var otline in outlines)
+        {
+            string res = "";
+            otline.ForEach((x) => res = res+" "+x);
+            Debug.Log("wall vertex ids = "+ res);
+        }
+#endif
 		SimplifyMeshOutlines ();
 	}
+
+#if DEBUG_RAYS && UNITY_EDITOR
+    void OnDrawGizmos(){
+        if (vertices == null || vertices.Count < 0){
+            return;
+        }
+        for (int vertexIndex = 0; vertexIndex < vertices.Count; vertexIndex ++) {
+            UnityEditor.Handles.Label(vertices[vertexIndex],""+vertexIndex);
+        }
+    }
+#endif
 
 	void SimplifyMeshOutlines() {
 		for (int outlineIndex = 0; outlineIndex < outlines.Count; outlineIndex ++) {

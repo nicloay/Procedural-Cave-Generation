@@ -29,8 +29,6 @@ public class WallDestroyHandler : MonoBehaviour {
         Debug.DrawRay(contact.point, contact.normal.normalized * 0.1f, Color.red);
 
         #endif
-
-        Vector3 contactPointWithOffset = contact.point;// + contact.normal.normalized * 0.1f;
-        return mg.RemoveNodeAtGlobalPositionIfItsNotAWall(contactPointWithOffset);
+        return mg.RemoveNodeAtGlobalPositionIfItsNotAWall(contact.point);
     }
 }

@@ -2,11 +2,13 @@
 using System;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class UIConfig{
     public Button SaveButton;
     public Button LoadButton;
+    public Button RestartButton;
 }
 
 public class GameManager : MonoBehaviour {	
@@ -16,6 +18,12 @@ public class GameManager : MonoBehaviour {
     void Start(){
         UI.SaveButton.onClick.AddListener(new UnityAction(SaveGame));
         UI.LoadButton.onClick.AddListener(new UnityAction(LoadGame));
+        UI.RestartButton.onClick.AddListener(new UnityAction(RestartGame));
+    }
+
+    void RestartGame(){
+        GameData.Map = null;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void Update(){
