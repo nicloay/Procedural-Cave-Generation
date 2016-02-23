@@ -24,6 +24,15 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
+    public int NodeNumber{
+        get{
+            if (meshGen != null && meshGen.squareGrid != null){                
+                return meshGen.squareGrid.OccupiedNodes;
+            } else {
+                return 0;
+            }
+        }
+    }
 
     public Vector3 GetNodeGlobalPosition(int x, int y){
         return meshGen.squareGrid.squares[x,y].CentralControlNode.position;

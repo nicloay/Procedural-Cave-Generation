@@ -10,6 +10,7 @@ public class UIConfig{
     public Button   LoadButton;
     public Button   RestartButton;
     public Text     WallsText;
+    public Text     NodeNumberText;
 
 }
 
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour {
     void Update(){
         UI.LoadButton.interactable = GameData.HasSave;
         UI.WallsText.text = string.Format("Walls: {0}", MapGenerator.WallsNumber);
+        UI.NodeNumberText.text = string.Format("Nodes: {0}", MapGenerator.NodeNumber);
     }
 
     public void SaveGame(){

@@ -339,6 +339,7 @@ public class MeshGenerator : MonoBehaviour {
 
 	public class SquareGrid {
 		public Square[,] squares;
+        public int OccupiedNodes;
         float mapWidth;
         float mapHeight;
         float squareSize;
@@ -349,13 +350,16 @@ public class MeshGenerator : MonoBehaviour {
 			mapWidth = nodeCountX * squareSize;
 			mapHeight = nodeCountY * squareSize;
             this.squareSize = squareSize;
-
+            OccupiedNodes =0;
 			ControlNode[,] controlNodes = new ControlNode[nodeCountX,nodeCountY];
 
 			for (int x = 0; x < nodeCountX; x ++) {
 				for (int y = 0; y < nodeCountY; y ++) {
                     Vector3 pos = nodeIndexesToGlobalPosition(x,y);
 					controlNodes[x,y] = new ControlNode(pos,map[x,y] == 1, squareSize);
+                    if (map[x,y] != 0){
+                        OccupiedNodes ++;
+                    }
 				}
 			}
 
