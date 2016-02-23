@@ -62,11 +62,9 @@ public class MapGenerator : MonoBehaviour {
         int x,y;
         foreach(Vector3 offset in CollisionOffsets){            
             if (meshGen.squareGrid.GlobalPositionToNodeIndexes(globalPosition + offset, out x, out y)){
-                Debug.LogFormat("{0}   [{1},{2}]", globalPosition + offset,x,y);
                 if (!IsNodeAtIndexesAwall(x,y)){
                     if (GameData.Map[x,y] == 1){                        
                         GameData.Map[x,y] = 0;
-                        Debug.LogFormat("deleted at {0} {1}", x, y);
                         return true;
                     }
                 }

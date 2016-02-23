@@ -202,7 +202,7 @@ public class MeshGenerator : MonoBehaviour {
 	}
 
 	void CalculateMeshOutlines() {
-
+        checkedVertices.Clear();
 		for (int vertexIndex = 0; vertexIndex < vertices.Count; vertexIndex ++) {
 			if (!checkedVertices.Contains(vertexIndex)) {
 				int newOutlineVertex = GetConnectedOutlineVertex(vertexIndex);
@@ -222,7 +222,7 @@ public class MeshGenerator : MonoBehaviour {
         {
             string res = "";
             otline.ForEach((x) => res = res+" "+x);
-            Debug.Log(res);
+            Debug.Log("wall vertex ids = "+ res);
         }
 #endif
 		SimplifyMeshOutlines ();
