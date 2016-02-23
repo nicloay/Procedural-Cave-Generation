@@ -36,7 +36,7 @@ public class FireController : MonoBehaviour {
 	}        
 
     public void Fire(){
-        if (GameData.ActiveBulletsNumber <= GameData.MaxBulletOnScreen 
+        if (GameData.ActiveBulletsNumber < GameData.MaxBulletOnScreen 
             && GameData.BulletNumbber > 0){
             GameData.BulletNumbber--;
             GameObject bullet = GameObject.Instantiate(BulletPrefab);
